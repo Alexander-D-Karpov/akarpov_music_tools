@@ -1,33 +1,37 @@
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
+from typing import Dict, Any, List, Optional
 
+class SpotifyResponse(BaseModel):
+    name: str = ""
+    link: str = ""
+    meta: Dict[str, Any] = {}
+    image_url: str = ""
+    external_urls: Dict[str, str] = {}
+    full_data: Dict[str, Any] = {}
 
-class SpotifySearchResponse(BaseModel):
+class SpotifyTrackResponse(SpotifyResponse):
     album_name: str = ""
     album_image: str = ""
+    album_meta: Dict[str, Any] = {}
     release: str = ""
     artists: List[str] = []
     artist: str = ""
     title: str = ""
-    genre: Optional[List[str]] = None
-    album_image_path: Optional[str] = None
+    genre: List[str] = []
 
-class SpotifyError(BaseModel):
-    detail: str
-
-
-class SpotifyArtistResponse(BaseModel):
-    name: str = ""
+class SpotifyArtistResponse(SpotifyResponse):
     genres: List[str] = []
     popularity: int = 0
     images: List[Dict[str, Any]] = []
-    external_urls: Dict[str, str] = {}
 
-class SpotifyAlbumResponse(BaseModel):
-    name: str = ""
+class SpotifyAlbumResponse(SpotifyResponse):
     release_date: str = ""
     total_tracks: int = 0
     images: List[Dict[str, Any]] = []
-    external_urls: Dict[str, str] = {}
     artists: List[Dict[str, Any]] = []
     genres: List[str] = []
+    tracks: List[Dict[str, Any]] = []
+
+class SpotifyError(BaseModel):
+    status: int
+    message: str
