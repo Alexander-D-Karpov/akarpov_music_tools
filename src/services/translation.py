@@ -51,7 +51,8 @@ class TranslationService:
             TranslationError: If unable to fetch supported languages.
         """
         try:
-            return set(self.translator.get_supported_languages())
+            translator_instance = self.translator(source='auto', target='en')
+            return set(translator_instance.get_supported_languages())
         except Exception as e:
             raise TranslationError(f"Failed to fetch supported languages: {str(e)}") from e
 
